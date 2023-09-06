@@ -1,0 +1,1 @@
+require("configs.coding.diagnostics")
