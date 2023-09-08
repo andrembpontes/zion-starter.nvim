@@ -41,7 +41,7 @@ require("lazy").setup({
         "andrembpontes/zion.nvim",
         import = "zion.plugins",
         config = true,
-        dir = "~/development/zion.nvim",
+        --dir = "~/development/zion.nvim",
     },
     { import = "plugins" },
 }, opts)
