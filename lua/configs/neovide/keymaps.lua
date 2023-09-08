@@ -1,21 +1,19 @@
-local keys = require("user.utils.keymaps")
+local map = vim.keymap.set;
 
 -- Default Cmd+{C,V} Copy/Paste
-keys.nmap("<D-c>", '"+yy')
-keys.vmap("<D-c>", '"+y')
-keys.icmap("<D-c>", '"+yy')
-keys.map("<D-v>", '<cmd>set paste<CR>"+p<cmd>set nopaste<CR>')
-keys.icmap("<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
-keys.tmap("<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
-keys.vmap("<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
+map("n", "<D-c>", '"+yy')
+map("v", "<D-c>", '"+y')
+map({ "i", "c" }, "<D-c>", '<esc>"+yya')
+map({ "n", "v", "o" }, "<D-v>", '<cmd>set paste<CR>"+p<cmd>set nopaste<CR>')
+map({ "i", "c" }, "<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
+map("t", "<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
+map("v", "<D-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
 
 -- Default Ctrl+Shift+{C,V} Copy/Paste
-keys.nmap("<C-S-c>", '"+yy')
-keys.vmap("<C-S-c>", '"+y')
-keys.icmap("<C-S-c>", '"+yy')
-keys.map("<C-S-v>", '<cmd>set paste<CR>"+p<cmd>set nopaste<CR>')
-keys.icmap("<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
-keys.tmap("<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
-keys.vmap("<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
-
-return {} -- Lazy requires a table return
+map("n", "<C-S-c>", '"+yy')
+map("v", "<C-S-c>", '"+y')
+map({ "i", "c" }, "<C-S-c>", '<esc>"+yya')
+map({ "n", "v", "o" }, "<C-S-v>", '<cmd>set paste<CR>"+p<cmd>set nopaste<CR>')
+map({ "i", "c" }, "<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
+map("t", "<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
+map("v", "<C-S-v>", "<cmd>set paste<CR><C-R>+<cmd>set nopaste<CR>")
