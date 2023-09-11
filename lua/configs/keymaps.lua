@@ -20,10 +20,10 @@
 -- <BS> -> backspace
 -- <Tab> -> Tab
 
-local map = vim.keymaps.set;
+local map = vim.keymap.set;
 
 -- remap the key used to leave insert mode
-map("n", "jk", "<esc>", { desc = "Exit Insert mode" })
+map("i", "jk", "<esc>", { desc = "Exit Insert mode" })
 
 -- <F1> help
 -- <F2> vim-codepainter
