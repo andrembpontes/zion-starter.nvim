@@ -1,6 +1,6 @@
 NVIM_CONFIG_PATH ?= ~/.config/nvim
 GIT_PULL ?= git pull
-GIT_COMMIT_PUSH ?= git add . && git commit -am "update" && git push
+GIT_COMMIT_PUSH ?= git diff HEAD --exit-code || (git add . && git commit -am "update" && git push)
 
 .PHONY:
 
