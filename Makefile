@@ -5,7 +5,7 @@ GIT_COMMIT_PUSH ?= git diff HEAD --exit-code || (git add . && git commit -am "up
 .PHONY:
 
 link:
-	ln -s $(PWD) $(NVIM_CONFIG_PATH)
+	[[ -d $(NVIM_CONFIG_PATH) ]] || ln -s $(PWD) $(NVIM_CONFIG_PATH)
 
 pull:
 	$(GIT_PULL)
