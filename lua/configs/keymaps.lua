@@ -70,6 +70,7 @@ map("n", "<leader>xx", "<cmd>Trouble<cr>")
 map("n", "<leader>xw", "<cmd>Trouble workspace_diagnostics<cr>")
 map("n", "<leader>xd", "<cmd>Trouble document_diagnostics<cr>")
 map("n", "<leader>xq", "<cmd>Trouble quickfix<cr>")
+map("n", "<leader>xe", "<cmd>Trouble diagnostics filter.severity=vim.diagnostic.severity.ERROR<cr>")
 
 -- Code editing + navigate
 map("n", "<BS>", "<C-o>")
@@ -80,59 +81,59 @@ map("n", "<CR>", [[:lua vim.lsp.buf.definition()<CR>]])
 map("n", "<leader>cf", [[:FormatDocument<CR>]], { desc = "Format Document" })
 
 map("n", "<leader>cr", function()
-	local ok, _ = pcall(require, "inc_rename")
+    local ok, _ = pcall(require, "inc_rename")
 
-	if ok then
-		return vim.cmd("IncRename " .. vim.fn.expand("<cword>"))
-	else
-		vim.lsp.buf.rename()
-	end
+    if ok then
+        return vim.cmd("IncRename " .. vim.fn.expand("<cword>"))
+    else
+        vim.lsp.buf.rename()
+    end
 end, { desc = "Rename" })
 
 -- LSP
 vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("KeymapsLspConfig", {}),
-	callback = function(ev)
-		-- Buffer local mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local buf = ev.buf
-		local opts = { buffer = buf }
+    group = vim.api.nvim_create_augroup("KeymapsLspConfig", {}),
+    callback = function(ev)
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local buf = ev.buf
+        local opts = { buffer = buf }
 
-		-- TODO review this
-		vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
+        -- TODO review this
+        vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
+        vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+        vim.keymap.set("n", "<space>wl", function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        end, opts)
 
-		vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<space>f", function()
-			vim.lsp.buf.format({ async = true })
-		end, opts)
+        vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<space>f", function()
+            vim.lsp.buf.format({ async = true })
+        end, opts)
 
-		map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto Definition", buffer = buf })
-		map("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References", buffer = buf })
-		map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration", buffer = buf })
-		map("n", "gi", "<cmd>Telescope lsp_implementations<cr>", { desc = "Goto Implementation", buffer = buf })
+        map("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto Definition", buffer = buf })
+        map("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References", buffer = buf })
+        map("n", "gD", vim.lsp.buf.declaration, { desc = "Goto Declaration", buffer = buf })
+        map("n", "gi", "<cmd>Telescope lsp_implementations<cr>", { desc = "Goto Implementation", buffer = buf })
 
-		map("n", "K", vim.lsp.buf.hover, { desc = "Hover", buffer = buf })
-		map("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help", buffer = buf })
-		map("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help", buffer = buf })
+        map("n", "K", vim.lsp.buf.hover, { desc = "Hover", buffer = buf })
+        map("n", "gK", vim.lsp.buf.signature_help, { desc = "Signature Help", buffer = buf })
+        map("i", "<c-k>", vim.lsp.buf.signature_help, { desc = "Signature Help", buffer = buf })
 
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", buffer = buf })
+        map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action", buffer = buf })
 
-		map({ "n", "v" }, "<leader>cA", function()
-			vim.lsp.buf.code_action({
-				context = {
-					only = {
-						"source",
-					},
-					diagnostics = {},
-				},
-			})
-		end, { desc = "Source Action", buffer = buf })
-	end,
+        map({ "n", "v" }, "<leader>cA", function()
+            vim.lsp.buf.code_action({
+                context = {
+                    only = {
+                        "source",
+                    },
+                    diagnostics = {},
+                },
+            })
+        end, { desc = "Source Action", buffer = buf })
+    end,
 })
 
 -- [[ Diagnostics ]]
@@ -142,43 +143,43 @@ iter("Diagnostic", "x", vim.diagnostic.goto_prev, vim.diagnostic.goto_next)
 iter("Diagnostic", "d", vim.diagnostic.goto_prev, vim.diagnostic.goto_next)
 
 iter("Error", "e", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity["ERROR"] })
+    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity["ERROR"] })
 end, function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity["ERROR"] })
+    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity["ERROR"] })
 end)
 
 iter("Warning", "w", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity["WARN"] })
+    vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity["WARN"] })
 end, function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity["WARN"] })
+    vim.diagnostic.goto_next({ severity = vim.diagnostic.severity["WARN"] })
 end)
 
 -- QuickFix list
 iter("n", "q", function()
-	vim.cmd("cprev")
+    vim.cmd("cprev")
 end, function()
-	vim.cmd("cnext")
+    vim.cmd("cnext")
 end)
 
 -- Term keymaps
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
-	group = vim.api.nvim_create_augroup("KeymapsTerm", {}),
-	callback = function(args)
-		local buf_name = vim.api.nvim_buf_get_name(args.buf)
-		local buf_ftype = vim.api.nvim_buf_get_option(args.buf, "filetype")
+    group = vim.api.nvim_create_augroup("KeymapsTerm", {}),
+    callback = function(args)
+        local buf_name = vim.api.nvim_buf_get_name(args.buf)
+        local buf_ftype = vim.api.nvim_buf_get_option(args.buf, "filetype")
 
-		if vim.startswith(buf_name, "term://") then
-			local o = { buffer = 0 }
-			if buf_ftype ~= "lazygit" then
-				map("t", "<esc><esc>", [[<C-\><C-n>]], o)
-			end
+        if vim.startswith(buf_name, "term://") then
+            local o = { buffer = 0 }
+            if buf_ftype ~= "lazygit" then
+                map("t", "<esc><esc>", [[<C-\><C-n>]], o)
+            end
 
-			--vim.keymap.set("t", "jk", [[<C-\><C-n>]], o)
-			map("t", "<C-h>", [[<Cmd>wincmd h<CR>]], o)
-			map("t", "<C-j>", [[<Cmd>wincmd j<CR>]], o)
-			map("t", "<C-k>", [[<Cmd>wincmd k<CR>]], o)
-			map("t", "<C-l>", [[<Cmd>wincmd l<CR>]], o)
-			map("t", "<C-w>", [[<C-\><C-n><C-w>]], o)
-		end
-	end,
+            --vim.keymap.set("t", "jk", [[<C-\><C-n>]], o)
+            map("t", "<C-h>", [[<Cmd>wincmd h<CR>]], o)
+            map("t", "<C-j>", [[<Cmd>wincmd j<CR>]], o)
+            map("t", "<C-k>", [[<Cmd>wincmd k<CR>]], o)
+            map("t", "<C-l>", [[<Cmd>wincmd l<CR>]], o)
+            map("t", "<C-w>", [[<C-\><C-n><C-w>]], o)
+        end
+    end,
 })
