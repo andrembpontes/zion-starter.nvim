@@ -1,0 +1,12 @@
+:root {
+  --demo-accent: #0d6efd;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2rem;
+}
+
+h1 {
+  color: var(--demo-accent);
+}

@@ -10,4 +10,8 @@ vim.env.SUDO_ASKPASS = "/sbin/lxqt-openssh-askpass"
 vim.g.mapleader = " "
 vim.g.localleader = "\\"
 
+if vim.env.NVIM_DEBUG_NOTIFY == "1" then
+	require("configs.debug").setup()
+end
+
 require('configs.lazy')
