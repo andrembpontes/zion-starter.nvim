@@ -38,6 +38,14 @@ local opts = {
 
 local local_zion = (function()
 	local uv = require("luv")
+
+	-- env var takes precedence
+	local env_dir = vim.env.ZION_NVIM_DIR
+	if env_dir and env_dir ~= "" and uv.fs_stat(env_dir) then
+		return env_dir
+	end
+
+	-- fallback to known local paths
 	local paths = {
 		uv.os_homedir() .. "/development/zion.nvim",
 	}
