@@ -161,6 +161,13 @@ end, function()
     vim.cmd("cnext")
 end)
 
+-- Codediff navigation (hunks and files)
+local ok_codediff, codediff = pcall(require, "codediff")
+if ok_codediff then
+    iter("Hunk", "c", codediff.prev_hunk, codediff.next_hunk)
+    iter("File", "f", codediff.prev_file, codediff.next_file)
+end
+
 -- Term keymaps
 vim.api.nvim_create_autocmd({ "TermOpen" }, {
     group = vim.api.nvim_create_augroup("KeymapsTerm", {}),

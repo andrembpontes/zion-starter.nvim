@@ -160,6 +160,10 @@ Therefore no Cursor/Copilot instruction files are currently available to mirror.
 
 ## Agent Workflow Expectations
 
+- **Never edit plugins directly in `~/.local/share/nvim/lazy/`.** Plugins are managed by `lazy.nvim` and their source of truth is the lockfile (`lazy-lock.json`). Direct edits to installed plugin files will be silently overwritten on the next plugin sync/update. To change plugin behavior:
+  - Adjust plugin `opts` or `config` in the spec (in `lua/plugins/` here or in `../zion.nvim`).
+  - If the plugin has a bug that cannot be worked around via config, update to a newer commit that fixes it via the plugin update workflow (`python .claude/skills/update-nvim/scripts/nvim_update.py`).
+  - As a last resort, ask the user what to do.
 - Before broad changes, inspect both this repo and `../zion.nvim`.
 - If behavior appears missing locally, assume it may live upstream in `zion.nvim`.
 - Keep changes minimal, targeted, and reversible.
